@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 
 /**
@@ -30,9 +31,15 @@ public class TransitionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 TransitionManager.go(scene);
-                WebView browser = (WebView)rootView.findViewById(R.id.webview);
-                browser.loadUrl("www.google.com");
-                Log.d("","Here");
+
+                WebView wv = (WebView) rootView.findViewById(R.id.webview);
+                wv.setWebViewClient(new WebViewClient() {
+                    @Override public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        view.loadUrl(url); return true;
+                    }
+                });
+                wv.loadUrl("www.google.com");
+                Log.d("","Loading Finished");
             }
         });
         return rootView;
